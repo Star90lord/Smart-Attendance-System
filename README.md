@@ -1,32 +1,3 @@
-#
-smart_attendance/
-│
-├── app.py                        # Main entry point (Flask or script runner)
-│
-├── requirements.txt              # Project dependencies
-├── README.md                     # Documentation
-│
-├── cnn_model/                    # Face detection + recognition
-│   ├── __init__.py
-│   └── cnn_face_detector.py       # CNN-based face detector
-│
-├── database/                     # Database handling
-│   ├── __init__.py
-│   └── database_handler.py        # SQLite or MySQL handler
-│
-├── storage/                      # Storage for attendance data
-│   ├── __init__.py
-│   └── csv_handler.py             # CSV-based attendance logger
-│               
-├── static/                       # For frontend (if Flask UI is used)
-│   ├── css/
-│   ├── js/
-│   └── images/
-│
-└── templates/                    # HTML templates (if Flask UI is used)
-    └── index.htmls
-#
-
 # Smart Attendance System
 A **Face Recognition-based Attendance System** built with **Python, OpenCV, and SQLite**.  
 This project automatically detects and recognizes students' faces, marks their attendance in a database, and prevents duplicate entries for the same day.
