@@ -44,7 +44,7 @@ for student_name in os.listdir(input_folder):
                 face_crop = img[y:y+h, x:x+w]
 
                 # Resize face to 224x224 for CNN
-                face_resized = cv2.resize(face_crop, (224, 224))
+                face_resized = cv2.resize(face_crop, (244, 244))
 
                 # Save cropped & resized image in student's folder
                 save_name = f"{os.path.splitext(img_name)[0]}_face{idx+1}.jpg"
