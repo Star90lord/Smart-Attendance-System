@@ -1,11 +1,11 @@
-# 🎯 Smart Attendance System
+#  Smart Attendance System
 
 A **Face Recognition-based Attendance System** built with **Python, OpenCV, and SQLite**.  
 This project automatically detects and recognizes students' faces, marks their attendance in a database, and prevents duplicate entries for the same day.
 
 ---
 
-## 📌 Features
+##  Features
 - **Face Detection & Recognition** using OpenCV.
 - **SQLite Database Integration** for storing:
   - Student details
@@ -17,21 +17,7 @@ This project automatically detects and recognizes students' faces, marks their a
 
 ---
 
-## 📂 Project Structure
-
-smart_attendance/
-│
-├── app.py # Main application entry point
-├── database.py # SQLite database handling
-├── face_recognition.py # Face detection & recognition logic
-├── utils.py # Helper functions
-├── requirements.txt # Dependencies
-└── README.md # Project documentation
-
-
----
-
-## 🗄 Database Schema
+## Database Schema
 
 ### Table: `students`
 | Column           | Type      | Description |
@@ -54,9 +40,9 @@ smart_attendance/
 
 ---
 
-## ⚙️ Installation & Setup
+##  Installation & Setup
 
-### 1️⃣ Clone the Repository
+###  Clone the Repository
 ```bash
 git clone https://github.com/your-username/smart-attendance-system.git
 cd smart-attendance-system
