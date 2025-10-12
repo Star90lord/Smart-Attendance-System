@@ -12,7 +12,7 @@ from csv import DictReader
 app = Flask(__name__)
 
 DB_FILE = 'attendance.db'
-PHOTOS_DIR = 'student_photos'
+PHOTOS_DIR = 'data'
 
 def find_photo(name, photos_dir=PHOTOS_DIR):
     if not os.path.exists(photos_dir):
@@ -62,7 +62,7 @@ def init_db():
     conn.close()
 
 def init_from_csv():
-    csv_path = 'details(1).csv'
+    csv_path = 'details.csv'
     if not os.path.exists(csv_path):
         return 0
     with open(csv_path, 'r') as f:
