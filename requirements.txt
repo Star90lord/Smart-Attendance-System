@@ -1,0 +1,12 @@
+opencv-python 
+numpy 
+pandas 
+tensorflow 
+keras 
+mtcnn 
+scikit-learn 
+sqlalchemy 
+pymysql 
+matplotlib 
+seaborn 
+python-dotenv
