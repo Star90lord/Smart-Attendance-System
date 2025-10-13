@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Attendance System</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { 
+    font-family: 'Inter', sans-serif; 
+    background: #f8fafc;
+  }
+  .card { 
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #e2e8f0;
+  }
+  .btn-primary {
+    background: #3b82f6;
+    color: white;
+    font-weight: 600;
+    transition: all 0.2s;
+    border-radius: 8px;
+  }
+  .btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+  .btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+    font-weight: 600;
+    transition: all 0.2s;
+    border-radius: 8px;
+  }
+  .btn-secondary:hover {
+    background: #e2e8f0;
+  }
+  .btn-success {
+    background: #10b981;
+    color: white;
+  }
+  .btn-success:hover {
+    background: #059669;
+  }
+  .btn-danger {
+    background: #ef4444;
+    color: white;
+  }
+  .btn-danger:hover {
+    background: #dc2626;
+  }
+  input, select {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #1e293b;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  table th {
+    background: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+    color: #475569;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+  table td {
+    border-bottom: 1px solid #f1f5f9;
+    color: #1e293b;
+  }
+  table tr:hover {
+    background: #f8fafc;
+  }
+  .header-bar {
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .sidebar {
+    background: #1e293b;
+    width: 280px;
+    min-height: 100vh;
+  }
+  .sidebar-item {
+    color: #cbd5e1;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 4px 12px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .sidebar-item:hover {
+    background: #334155;
+    color: white;
+  }
+  .sidebar-item.active {
+    background: #3b82f6;
+    color: white;
+  }
+  .main-content {
+    flex: 1;
+    background: #f8fafc;
+  }
+</style>
+</head>
+<body class="flex">
+
+<!-- Sidebar -->
+<div class="sidebar flex flex-col">
+  <div class="p-6 border-b border-slate-700">
+    <h1 class="text-xl font-bold text-white flex items-center gap-2">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+      </svg>
+      Attendance
+    </h1>
+  </div>
+  
+  <div class="py-4 flex-1">
+    <div class="sidebar-item active" onclick="showSection('dashboard')">
+      <div class="flex items-center gap-3">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+        </svg>
+        Dashboard
+      </div>
+    </div>
+    <div class="sidebar-item" onclick="showSection('students')">
+      <div class="flex items-center gap-3">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        Students
+      </div>
+    </div>
+    <div class="sidebar-item" onclick="showSection('attendance')">
+      <div class="flex items-center gap-3">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+        </svg>
+        Mark Attendance
+      </div>
+    </div>
+  </div>
+
+  <div class="p-4 border-t border-slate-700">
+    <div class="text-slate-400 text-sm">
+      <p class="font-semibold text-white mb-1">System Info</p>
+      <p>Total Students: <span id="totalStudents">0</span></p>
+      <p class="text-xs mt-2">v1.0.0</p>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content flex flex-col flex-1">
+  <!-- Header -->
+  <div class="header-bar px-8 py-4">
+    <div class="flex items-center justify-between">
+      <h2 class="text-2xl font-bold text-slate-800" id="sectionTitle">Dashboard</h2>
+      <div class="flex items-center gap-4">
+        <div class="text-sm text-slate-600">
+          <span id="currentDate"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Area -->
+  <div class="p-8 overflow-auto">
+    
+    <!-- Dashboard Section -->
+    <div id="dashboardSection" class="space-y-6">
+      <div class="grid grid-cols-3 gap-6">
+        <div class="card p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-slate-600 text-sm font-medium">Total Students</p>
+              <p class="text-3xl font-bold text-slate-800 mt-2" id="dashStudents">0</p>
+            </div>
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-slate-600 text-sm font-medium">Present Today</p>
+              <p class="text-3xl font-bold text-green-600 mt-2" id="dashPresent">0</p>
+            </div>
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-slate-600 text-sm font-medium">Attendance Rate</p>
+              <p class="text-3xl font-bold text-slate-800 mt-2" id="dashRate">0%</p>
+            </div>
+            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card p-6">
+        <h3 class="text-lg font-semibold text-slate-800 mb-4">Quick Actions</h3>
+        <div class="flex gap-4">
+          <button onclick="showSection('students')" class="btn-primary px-6 py-3 flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Add New Student
+          </button>
+          <button onclick="showSection('attendance')" class="btn-secondary px-6 py-3 flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            Mark Attendance
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Students Section -->
+    <div id="studentsSection" class="hidden space-y-6">
+      <div class="card p-6">
+        <h3 class="text-lg font-semibold text-slate-800 mb-4">Add New Student</h3>
+        <form id="studentForm" class="space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="col-span-2 flex items-center gap-4">
+              <div class="flex flex-col items-center">
+                <img id="previewImg" src="" alt="Preview" class="w-24 h-24 object-cover rounded-full border-2 border-slate-200 hidden">
+                <div id="placeholderImg" class="w-24 h-24 bg-slate-100 rounded-full border-2 border-slate-200 flex items-center justify-center">
+                  <svg class="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1">
+                <label class="block text-sm font-medium text-slate-700 mb-2">Student Photo</label>
+                <input type="file" id="imageInput" accept="image/*" class="w-full p-3">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-2">Full Name *</label>
+              <input type="text" id="nameInput" placeholder="John Doe" class="w-full p-3" required>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-2">Roll Number *</label>
+              <input type="text" id="rollInput" placeholder="CS001" class="w-full p-3" required>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-2">Email</label>
+              <input type="email" id="emailInput" placeholder="student@example.com" class="w-full p-3">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-2">Course / Specialization *</label>
+              <select id="courseInput" class="w-full p-3" required>
+                <option value="" disabled selected>Select Course</option>
+                <option value="CSE">Computer Science Engineering (CSE)</option>
+                <option value="ECE">Electronics & Communication (ECE)</option>
+                <option value="ME">Mechanical Engineering (ME)</option>
+                <option value="CE">Civil Engineering (CE)</option>
+                <option value="EE">Electrical Engineering (EE)</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary px-8 py-3">Add Student</button>
+        </form>
+      </div>
+
+      <div class="card p-6">
+        <h3 class="text-lg font-semibold text-slate-800 mb-4">Student List</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full" id="studentTable">
+            <thead>
+              <tr>
+                <th class="px-4 py-3 text-left">Photo</th>
+                <th class="px-4 py-3 text-left">Name</th>
+                <th class="px-4 py-3 text-left">Roll Number</th>
+                <th class="px-4 py-3 text-left">Email</th>
+                <th class="px-4 py-3 text-left">Course</th>
+                <th class="px-4 py-3 text-left">Registered</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attendance Section -->
+    <div id="attendanceSection" class="hidden space-y-6">
+      <div class="card p-6">
+        <h3 class="text-lg font-semibold text-slate-800 mb-4">Face Recognition Attendance</h3>
+        <button type="button" class="btn-primary px-6 py-3" onclick="startCamera()">
+          <span class="flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            Start Camera
+          </span>
+        </button>
+
+        <div id="cameraDiv" class="hidden mt-6 space-y-4">
+          <video id="video" autoplay class="w-full rounded-lg border-2 border-slate-200"></video>
+          <div class="flex gap-4">
+            <button type="button" class="btn-success flex-1 px-6 py-3" onclick="markAttendance()">
+              <span class="flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Capture & Mark Attendance
+              </span>
+            </button>
+            <button type="button" class="btn-danger flex-1 px-6 py-3" onclick="stopCamera()">
+              <span class="flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+                Stop Camera
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div id="attendSpinner" class="hidden flex flex-col items-center mt-6">
+          <div class="border-4 border-slate-200 border-t-blue-500 w-12 h-12 rounded-full animate-spin"></div>
+          <p class="mt-3 text-slate-600">Processing face recognition...</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast Message -->
+<div id="toast" class="hidden fixed bottom-8 right-8 card p-4 shadow-lg max-w-md">
+  <div class="flex items-start gap-3">
+    <div id="toastIcon" class="flex-shrink-0 w-6 h-6"></div>
+    <div class="flex-1">
+      <p id="toastTitle" class="font-semibold text-slate-800"></p>
+      <p id="toastText" class="text-sm text-slate-600 mt-1"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Update date
+  document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  // Image Preview
+  const imageInput = document.getElementById('imageInput');
+  const previewImg = document.getElementById('previewImg');
+  const placeholderImg = document.getElementById('placeholderImg');
+
+  imageInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if(file){
+      previewImg.src = URL.createObjectURL(file);
+      previewImg.classList.remove('hidden');
+      placeholderImg.classList.add('hidden');
+    }
+  });
+
+  const students = [];
+  let presentCount = 0;
+
+  // Section Navigation
+  function showSection(section) {
+    document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+    document.getElementById('dashboardSection').classList.add('hidden');
+    document.getElementById('studentsSection').classList.add('hidden');
+    document.getElementById('attendanceSection').classList.add('hidden');
+
+    if(section === 'dashboard') {
+      document.getElementById('dashboardSection').classList.remove('hidden');
+      document.getElementById('sectionTitle').textContent = 'Dashboard';
+      document.querySelectorAll('.sidebar-item')[0].classList.add('active');
+    } else if(section === 'students') {
+      document.getElementById('studentsSection').classList.remove('hidden');
+      document.getElementById('sectionTitle').textContent = 'Students';
+      document.querySelectorAll('.sidebar-item')[1].classList.add('active');
+    } else if(section === 'attendance') {
+      document.getElementById('attendanceSection').classList.remove('hidden');
+      document.getElementById('sectionTitle').textContent = 'Mark Attendance';
+      document.querySelectorAll('.sidebar-item')[2].classList.add('active');
+    }
+  }
+
+  // Update Dashboard Stats
+  function updateStats() {
+    const total = students.length;
+    const rate = total > 0 ? Math.round((presentCount / total) * 100) : 0;
+    
+    document.getElementById('totalStudents').textContent = total;
+    document.getElementById('dashStudents').textContent = total;
+    document.getElementById('dashPresent').textContent = presentCount;
+    document.getElementById('dashRate').textContent = rate + '%';
+  }
+
+  // Add Student Form
+  document.getElementById('studentForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('nameInput').value.trim();
+    const roll = document.getElementById('rollInput').value.trim();
+    const email = document.getElementById('emailInput').value.trim() || "N/A";
+    const course = document.getElementById('courseInput').value;
+    const photoFile = imageInput.files[0];
+
+    if(!name || !roll || !course){
+      showToast('Error', 'Please fill all required fields!', false);
+      return;
+    }
+
+    if(students.some(s => s.roll === roll)){
+      showToast('Error', 'Student with this roll number already exists!', false);
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('roll_number', roll);
+    formData.append('email', email);
+    formData.append('course', course);
+    if(photoFile) formData.append('image', photoFile);
+
+    try {
+      const response = await fetch('/add', { method: 'POST', body: formData });
+      const data = await response.json();
+
+      if(data.success){
+        const time = new Date().toLocaleString();
+        const photoURL = photoFile ? URL.createObjectURL(photoFile) : 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23cbd5e1"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
+        const student = { photo: photoURL, name, roll, email, course, time };
+        students.push(student);
+        addStudentToTable(student);
+        updateStats();
+        showToast('Success', data.message || 'Student added successfully!', true);
+        document.getElementById('studentForm').reset();
+        previewImg.classList.add('hidden');
+        placeholderImg.classList.remove('hidden');
+      } else {
+        showToast('Error', data.message || 'Failed to add student.', false);
+      }
+    } catch (err){
+      showToast('Error', 'Error connecting to server!', false);
+    }
+  });
+
+  function addStudentToTable(student){
+    const table = document.getElementById('studentTable').querySelector('tbody');
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td class="px-4 py-3">
+        <img src="${student.photo}" class="w-10 h-10 object-cover rounded-full border border-slate-200">
+      </td>
+      <td class="px-4 py-3 font-medium">${student.name}</td>
+      <td class="px-4 py-3">${student.roll}</td>
+      <td class="px-4 py-3 text-slate-600">${student.email}</td>
+      <td class="px-4 py-3">
+        <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-700">
+          ${student.course}
+        </span>
+      </td>
+      <td class="px-4 py-3 text-slate-600 text-sm">${student.time}</td>
+    `;
+    table.appendChild(row);
+  }
+
+  function showToast(title, message, success){
+    const toast = document.getElementById('toast');
+    const icon = document.getElementById('toastIcon');
+    const toastTitle = document.getElementById('toastTitle');
+    const text = document.getElementById('toastText');
+
+    toast.classList.remove('hidden');
+    toastTitle.textContent = title;
+    text.textContent = message;
+
+    if(success){
+      icon.innerHTML = '<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+    } else {
+      icon.innerHTML = '<svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+    }
+
+    setTimeout(() => toast.classList.add('hidden'), 4000);
+  }
+
+  // Camera Functions
+  let stream;
+  const video = document.getElementById('video');
+
+  function startCamera(){
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(s => {
+        stream = s;
+        video.srcObject = s;
+        document.getElementById('cameraDiv').classList.remove('hidden');
+      })
+      .catch(() => showToast('Error', 'Camera access denied!', false));
+  }
+
+  function stopCamera(){
+    if(stream){
+      stream.getTracks().forEach(track => track.stop());
+      video.srcObject = null;
+      document.getElementById('cameraDiv').classList.add('hidden');
+    }
+  }
+
+  function markAttendance(){
+    presentCount++;
+    updateStats();
+    showToast('Success', 'Attendance marked successfully (Demo Mode)', true);
+  }
+</script>
+</body>
+</html>
