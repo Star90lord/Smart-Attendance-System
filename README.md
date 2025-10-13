@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 #  Smart Attendance System
 
 A **Face Recognition-based Attendance System** built with **Python, OpenCV, and SQLite**.  
@@ -41,11 +39,3 @@ This project automatically detects and recognizes students' faces, marks their a
 | FOREIGN KEY  | (student_id) REFERENCES students(id) |
 
 ---
-
-##  Installation & Setup
-
-###  Clone the Repository
-```bash
-git clone https://github.com/your-username/smart-attendance-system.git
-cd smart-attendance-system
->>>>>>> bde71884b65ee0dd0d71340d2a9f4d302cfd0487
