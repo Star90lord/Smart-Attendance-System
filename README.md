@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 =======
 #  Smart Attendance System
 
@@ -48,4 +48,4 @@ This project automatically detects and recognizes students' faces, marks their a
 ```bash
 git clone https://github.com/your-username/smart-attendance-system.git
 cd smart-attendance-system
->>>>>>> bde71884b65ee0dd0d71340d2a9f4d302cfd0487
+
