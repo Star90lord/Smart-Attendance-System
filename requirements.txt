@@ -1,9 +1,14 @@
 opencv-python 
 numpy==1.23.0
-pandas 
+tqdm
+setuptools wheel
+cmake
+dlib
+pillow
+scikit-learn
 tensorflow==2.10.0
 keras
-mtcnn l  
+mtcnn 
 python-dotenv
 flask-cors
 
