@@ -1,9 +1,16 @@
 opencv-python 
 numpy==1.23.0
-pandas 
+tqdm
+setuptools wheel
+cmake
+dlib
+pillow
 tensorflow==2.10.0
 keras
-mtcnn l  
+mtcnn 
 python-dotenv
 flask-cors
-
+face_recognition
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+pip install facenet-pytorch opencv-python numpy scikit-learn pillow
+pip install pandas openpyxl
