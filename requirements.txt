@@ -5,10 +5,12 @@ setuptools wheel
 cmake
 dlib
 pillow
-scikit-learn
 tensorflow==2.10.0
 keras
 mtcnn 
 python-dotenv
 flask-cors
-
+face_recognition
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+pip install facenet-pytorch opencv-python numpy scikit-learn pillow
+pip install pandas openpyxl
